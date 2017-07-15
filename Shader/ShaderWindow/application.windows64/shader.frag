@@ -14,6 +14,10 @@ float plot(vec2 st, float pct){
           smoothstep( pct, pct+0.02, st.y);
 }
 
+void Rect(float x1, float x2, float y1, float y2){
+  
+}
+
 void main() {
   vec2 st = gl_FragCoord.xy / u_resolution;
 
