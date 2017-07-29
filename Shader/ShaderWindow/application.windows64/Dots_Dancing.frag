@@ -52,11 +52,7 @@ float pcurve( float x, float a, float b ){
 void main() {
   vec2 st = gl_FragCoord.xy / u_resolution;
   vec3 background = vec3(0.0);
-  vec3 color_1 = vec3(.1,.2,.3);
-  vec3 color_2 = vec3(.3,.2,.1);
-  vec3 color_3 = vec3(.2,.3,.1);
-  vec3 color = vec3(0.0);
-
+  vec3 color = vec3(.1,.2,.3);
   vec2 stVector = 2*step(vec2(1.0),mod(10 * st,vec2(2.0))) - 1;
   
   st = fract(10 * st);
@@ -66,8 +62,6 @@ void main() {
   vec2 pause = floor(st);
   float draw = Circle(vec2(.5) + pause, .25, st);
   
-  color = mix(color_1,color_2, sin(u_time));
-  color = mix(color_3,color,cos(u_time));
   // background = vec3(st, 0.0);
 	gl_FragColor = vec4(mix(background,color,draw), 1.0);
 }
