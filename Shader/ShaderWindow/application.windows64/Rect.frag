@@ -31,23 +31,23 @@ float Rect(float x1, float x2, float y1, float y2, vec2 st){
   return rect.x * rect.y;
 }
 
-float Circle(vec2 center, float radius, vec2 st){
-  return (1 - step(radius, distance(st, vec2(0.5))));
-}
-
-float pcurve( float x, float a, float b ){
-    float k = pow(a+b,a+b) / (pow(a,a)*pow(b,b));
-    return k * pow( x, a ) * pow( 1.0-x, b );
-}
-
 void main() {
   vec2 st = gl_FragCoord.xy / u_resolution;
-  vec3 background = vec3(1.);
-  vec3 Fin_Color = vec3(.0);
+  vec3 background = vec3(1.,.95,.9);
+  vec3 Line_Color = vec3(0.0);
 
-  st = 2*st - 1;
-  float a = atan(st.y, st.x);
-  float d = cos(floor(a*.636 + .5 ) * M_PI/2. ) ;
-  Fin_Color = vec3(d);
-	gl_FragColor = vec4(Fin_Color, 1.0);
+  float draw_Line = plot(st, 0.8) + 
+                    plot(st, 0.6) + 
+                    plot(st, 0.1) * step(0.2, st.x) +
+                    plot(vec2(st.y, st.x), 0.1) * step(0.6, st.y) +
+                    plot(vec2(st.y, st.x), 0.2) + 
+                    plot(vec2(st.y, st.x), 0.7) + 
+                    plot(vec2(st.y, st.x), 0.96);
+
+  vec3 FinalColor = background;
+  FinalColor = mix(FinalColor, Red, Rect(0., .2, .6, 1., st));
+  FinalColor = mix(FinalColor, Yellow, Rect(0.96, 1., .6, 1., st));
+  FinalColor = mix(FinalColor, Blue, Rect(.7, 1., 0., .1, st));
+  FinalColor = mix(FinalColor, Line_Color, draw_Line);
+	gl_FragColor = vec4(FinalColor, 1.0);
 }
